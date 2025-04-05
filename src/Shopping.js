@@ -48,14 +48,18 @@ const Shopping = () => {
   };
 const subtotal=geSubtotal(cart)
 const progreess=Math.min((subtotal/THRESHOLD)*100,100)
-  useEffect(()=>{
-    const hasGift=cart.some(item=>item.id==='gift')
-    if(subtotal>=THRESHOLD && !hasGift){
-        setCart(prev=>[...prev,FREE_GIFT])
-    }if(subtotal<THRESHOLD &&THRESHOLD){
-        setCart(prev=>prev.filter(item=>item.id!=='gift'))
+useEffect(() => {
+    const hasGift = cart.some(item => item.id === 'gift');
+  
+    if (subtotal >= THRESHOLD && !hasGift) {
+      setCart(prev => [...prev, FREE_GIFT]);
     }
-  },[subtotal])
+  
+    if (subtotal < THRESHOLD && hasGift) {
+      setCart(prev => prev.filter(item => item.id !== 'gift'));
+    }
+  }, [subtotal, cart, THRESHOLD, FREE_GIFT]);
+  
   return (
     <div className="shopping-container">
       <h1>Shopping Cart</h1>
